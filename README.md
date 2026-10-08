@@ -6,9 +6,8 @@
 
 ### 🌐 사이트 바로가기
 
-👉 **[나의 업무 도구 모음 열기](https://아이디.github.io/my-work-tools)**
+👉 **[나의 업무 도구 모음 열기](https://basebeauty.github.io/my-work-tools)**
 
-> ⚙️ `아이디`를 본인의 GitHub 사용자 이름으로 변경하세요.
 
 ## 🛠️ 제공 도구
 
