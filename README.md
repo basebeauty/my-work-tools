@@ -6,7 +6,7 @@
 
 ### 🌐 사이트 바로가기
 
-👉 **[나의 업무 도구 모음 열기](https://basebeauty.github.io/my-work-tools)**
+👉 **[나의 업무 도구 모음 열기](https://basebeauty.github.io/my-work-tools/index.html)**
 
 
 ## 🛠️ 제공 도구
