@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="바이브 코딩으로 직접 만든 편리한 업무 도구 모음">
+  <title>나의 업무 도구 모음</title>
+  <!-- 글꼴만 Google Fonts에서 불러옵니다. 기능용 외부 라이브러리는 사용하지 않습니다. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#1f3a6d; --navy-dark:#172e59; --text:#1f2937; --muted:#617187; --line:#e6ebf2; --bg:#fff; --soft:#f5f8fc; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Noto Sans KR",sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .container { width:min(1120px, calc(100% - 40px)); margin:0 auto; }
+    header { padding:76px 0 44px; text-align:center; background:linear-gradient(180deg,#f4f7fd 0%,#fff 100%); }
+    .eyebrow { display:inline-block; margin:0 0 13px; padding:5px 14px; border-radius:99px; color:var(--navy); background:#e8effb; font-size:13px; font-weight:700; }
+    h1 { margin:0; color:var(--navy); font-size:clamp(30px,5vw,45px); letter-spacing:-1.6px; line-height:1.35; }
+    .subtitle { margin:15px 0 0; font-size:clamp(15px,2.2vw,18px); color:var(--muted); }
+    main { padding:12px 0 66px; }
+    .toolbar { display:flex; align-items:end; justify-content:space-between; gap:18px; margin:0 0 26px; }
+    .section-heading h2 { font-size:23px; margin:0 0 4px; color:#25364e; letter-spacing:-.6px; }
+    .section-heading p { margin:0; color:var(--muted); font-size:14px; }
+    .search-wrap { position:relative; width:min(350px,100%); }
+    .search-wrap label { display:block; font-size:13px; color:var(--muted); font-weight:600; margin-bottom:7px; }
+    .search-wrap input { width:100%; border:1px solid #d9e1ed; border-radius:13px; padding:13px 16px 13px 42px; font:inherit; font-size:14px; outline:none; transition:border-color .2s,box-shadow .2s; }
+    .search-wrap input:focus { border-color:var(--navy); box-shadow:0 0 0 3px rgba(31,58,109,.12); }
+    .search-icon { position:absolute; left:15px; bottom:15px; width:17px; height:17px; fill:none; stroke:#8190a4; stroke-width:2; pointer-events:none; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+    .tool-card { display:flex; flex-direction:column; align-items:flex-start; padding:30px; min-height:265px; border:1px solid var(--line); border-radius:20px; background:#fff; box-shadow:0 6px 20px rgba(27,52,96,.045); transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease; }
+    .tool-card:hover { transform:translateY(-6px); box-shadow:0 16px 34px rgba(27,52,96,.13); border-color:#cbd7eb; }
+    .tool-icon { display:grid; place-items:center; width:70px; height:70px; border-radius:18px; background:var(--soft); font-size:37px; margin-bottom:18px; }
+    .tool-card h3 { font-size:21px; margin:0 0 7px; color:#25364e; letter-spacing:-.5px; }
+    .tool-card p { margin:0 0 23px; color:var(--muted); font-size:14px; word-break:keep-all; }
+    .open-button { display:inline-flex; align-items:center; justify-content:center; gap:9px; margin-top:auto; background:var(--navy); border-radius:10px; padding:10px 18px; color:#fff; font-weight:700; font-size:14px; text-decoration:none; transition:background .2s; }
+    .open-button:hover, .open-button:focus-visible { background:var(--navy-dark); }
+    .empty { display:none; text-align:center; padding:54px 20px; color:var(--muted); border:1px dashed #ccd6e5; border-radius:18px; }
+    .notice { margin-top:34px; display:flex; gap:14px; align-items:flex-start; padding:23px 26px; background:#f3f7fd; border:1px solid #dfe9f8; border-radius:17px; color:#354d71; font-size:14px; }
+    .notice-icon { font-size:23px; line-height:1.4; }
+    .notice strong { display:block; margin-bottom:4px; color:var(--navy); }
+    .notice p { margin:0; }
+    footer { border-top:1px solid var(--line); padding:26px 20px 32px; text-align:center; color:#8490a0; font-size:13px; }
+    @media(max-width:680px) { header { padding:55px 0 36px; } main { padding-top:8px; } .toolbar { align-items:stretch; flex-direction:column; gap:20px; } .search-wrap { width:100%; } .grid { grid-template-columns:1fr; gap:16px; } .tool-card { padding:25px; min-height:240px; } .notice { padding:19px; } }
+    @media(prefers-reduced-motion:reduce) { .tool-card,.open-button,.search-wrap input { transition:none; } .tool-card:hover { transform:none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <p class="eyebrow">나만의 업무 도우미</p>
+      <h1>나의 업무 도구 모음</h1>
+      <p class="subtitle">바이브 코딩으로 직접 만든 업무 도우미</p>
+    </div>
+  </header>
+  <main class="container">
+    <section aria-labelledby="tools-title">
+      <div class="toolbar">
+        <div class="section-heading">
+          <h2 id="tools-title">업무 도구 둘러보기</h2>
+          <p id="result-count" aria-live="polite">필요한 도구를 찾아 바로 사용해 보세요.</p>
+        </div>
+        <div class="search-wrap">
+          <label for="tool-search">도구 검색</label>
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.2 16.2 5 5"/></svg>
+          <input id="tool-search" type="search" placeholder="도구 이름 또는 설명 검색" autocomplete="off">
+        </div>
+      </div>
+      <div id="tool-grid" class="grid"></div>
+      <div id="empty-message" class="empty" role="status">검색 결과가 없습니다. 다른 검색어를 입력해 주세요.</div>
+    </section>
+    <aside class="notice" aria-label="개인정보 보호 안내">
+      <span class="notice-icon" aria-hidden="true">🔒</span>
+      <div>
+        <strong>안심하고 사용하세요</strong>
+        <p>모든 도구는 브라우저 안에서만 동작하며, 입력한 파일과 내용은 어디에도 저장·전송되지 않습니다.</p>
+      </div>
+    </aside>
+  </main>
+  <footer id="footer"></footer>
+
+  <script>
+    // =============================================================
+    // ★ 여기만 수정하세요: 도구 추가는 아래 배열에 한 줄만 추가하면 됩니다.
+    // 형식: { icon: "이모지", name: "도구 이름", description: "설명", url: "파일명.html" },
+    // =============================================================
+    const TOOLS = [
+      { icon: "📄", name: "PDF 병합·분할기", description: "여러 PDF를 합치고, 필요한 페이지만 나눠요", url: "pdf-tool.html" },
+      { icon: "🍱", name: "점심 메뉴 룰렛", description: "날씨까지 반영해서 오늘 점심을 정해 드려요", url: "lunch.html" },
+      { icon: "🛡️", name: "개인정보 마스킹기", description: "문서 속 전화번호·주민번호를 자동으로 가려요", url: "masking.html" },
+      { icon: "🏷️", name: "QR 설비 라벨 생성기", description: "설비 목록으로 인쇄용 QR 라벨을 만들어요", url: "qr-label.html" }
+    ];
+
+    // ★ 만든 사람 이름은 여기서 바꾸세요.
+    const MAKER_NAME = "○○○";
+
+    // 카드에 입력할 문자열은 HTML로 해석하지 않고 텍스트로 처리합니다.
+    const grid = document.getElementById("tool-grid");
+    const searchInput = document.getElementById("tool-search");
+    const resultCount = document.getElementById("result-count");
+    const emptyMessage = document.getElementById("empty-message");
+
+    // 도구 1개를 카드로 만듭니다.
+    function createCard(tool) {
+      const card = document.createElement("article");
+      card.className = "tool-card";
+      const icon = document.createElement("div");
+      icon.className = "tool-icon";
+      icon.textContent = tool.icon;
+      icon.setAttribute("aria-hidden", "true");
+      const title = document.createElement("h3");
+      title.textContent = tool.name;
+      const description = document.createElement("p");
+      description.textContent = tool.description;
+      const button = document.createElement("a");
+      button.className = "open-button";
+      button.href = tool.url;
+      button.textContent = "열기 →";
+      button.setAttribute("aria-label", `${tool.name} 열기`);
+      card.append(icon, title, description, button);
+      return card;
+    }
+
+    // 검색어에 따라 이름 또는 설명이 일치하는 카드만 표시합니다.
+    function renderTools() {
+      const keyword = searchInput.value.trim().toLocaleLowerCase("ko");
+      const matchingTools = TOOLS.filter(tool =>
+        `${tool.name} ${tool.description}`.toLocaleLowerCase("ko").includes(keyword)
+      );
+      grid.replaceChildren(...matchingTools.map(createCard));
+      emptyMessage.style.display = matchingTools.length ? "none" : "block";
+      resultCount.textContent = `전체 ${TOOLS.length}개 도구 중 ${matchingTools.length}개 표시`;
+    }
+
+    searchInput.addEventListener("input", renderTools);
+    document.getElementById("footer").textContent = `만든 사람: ${MAKER_NAME} · 바이브 코딩 실습 결과물 · 2026`;
+    renderTools();
+  </script>
+</body>
+</html>
