@@ -6,64 +6,119 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
   <title>네이버 뉴스 원문 확인</title>
+
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       background: #f4f6f9;
-      padding: 40px 16px;
+      padding: 30px 15px;
       text-align: center;
     }
+
     main {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 500px;
+      max-width: 520px;
       margin: auto;
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #00000012;
     }
-    a {
-      display: block;
+
+    h2 {
+      color: #222;
+    }
+
+    #newsLink {
+      display: none;
+      margin-top: 22px;
+      padding: 16px;
       background: #2766d8;
       color: white;
-      padding: 16px;
       border-radius: 8px;
       text-decoration: none;
+      font-weight: bold;
+    }
+
+    #domain {
+      color: #666;
+      overflow-wrap: anywhere;
+    }
+
+    #status {
+      color: #c0392b;
       margin-top: 20px;
     }
   </style>
 </head>
+
 <body>
   <main>
-    <h2>네이버 뉴스 알림</h2>
+    <h2>📰 네이버 뉴스 알림</h2>
+
     <p>아래 버튼을 누르면 뉴스 원문으로 이동합니다.</p>
+
     <p id="domain"></p>
-    <a id="newsLink" hidden
-       rel="noopener noreferrer"
-       referrerpolicy="no-referrer">
+
+    <a id="newsLink"
+       target="_self"
+       rel="noopener noreferrer">
        뉴스 원문 보기
     </a>
+
     <p id="status"></p>
   </main>
 
   <script>
-    const params = new URLSearchParams(location.search);
+    const params =
+      new URLSearchParams(window.location.search);
+
     const rawUrl = params.get("url");
-    const link = document.getElementById("newsLink");
-    const status = document.getElementById("status");
+
+    const newsLink =
+      document.getElementById("newsLink");
+
+    const domain =
+      document.getElementById("domain");
+
+    const status =
+      document.getElementById("status");
 
     try {
-      const target = new URL(rawUrl);
-
-      if (target.protocol !== "https:") {
-        throw new Error("HTTPS 주소만 허용");
+      if (!rawUrl) {
+        throw new Error(
+          "뉴스 주소가 전달되지 않았습니다."
+        );
       }
 
-      document.getElementById("domain").textContent =
+      const target = new URL(rawUrl);
+
+      // HTTP 또는 HTTPS 뉴스 링크 허용
+      if (
+        target.protocol !== "https:" &&
+        target.protocol !== "http:"
+      ) {
+        throw new Error(
+          "지원하지 않는 뉴스 주소입니다."
+        );
+      }
+
+      // 실제 원문 주소 연결
+      newsLink.href = target.href;
+
+      // 링크가 정상일 때만 버튼 표시
+      newsLink.style.display = "block";
+
+      domain.textContent =
         "이동할 사이트: " + target.hostname;
-      link.href = target.href;
-      link.hidden = false;
-    } catch (e) {
-      status.textContent =
-        "뉴스 원문 주소가 없거나 올바르지 않습니다.";
+
+      if (target.protocol === "http:") {
+        status.textContent =
+          "참고: 이 뉴스는 암호화되지 않은 HTTP 주소입니다.";
+      }
+
+    } catch (error) {
+      newsLink.style.display = "none";
+      status.textContent = error.message;
     }
   </script>
 </body>
